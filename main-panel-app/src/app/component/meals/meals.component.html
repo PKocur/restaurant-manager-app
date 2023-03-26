@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="mx-5 col-3 my-3" *ngFor="let meal of meals; let index=index">
+    <div class="alert alert-primary id" role="alert">
+      <span class="fs-3">{{meal.name}}</span>
+      <span class="fs-3"> - {{meal.price}} zł</span>
+    </div>
+    <button class="m-1 btn btn-info" (click)="removeMeal(meal.id)">Edit</button>
+    <button class="m-1 btn btn-danger" (click)="removeMeal(meal.id)">Delete</button>
+  </div>
+  <button class="display-1 mx-5 col-3 my-3 alert alert-info" (click)="openAddMealModal()">
+    +
+  </button>
+</div>
+
+
+<div
+  class="modal fade"
+  id="addMealModal"
+  tabindex="-1"
+  aria-labelledby="addMealModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add meal</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [noValidate]="false" [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name">
+              Name
+            </label>
+            <input class="form-control" id="name" type="text" placeholder="Enter meal name" required minlength="3"
+                   maxlength="50" formControlName="name"/>
+          </div>
+          <div class="form-group">
+            <label for="price">
+              Price
+            </label>
+            <input class="form-control" id="price" type="number" placeholder="Enter meal price" required step="0.01"
+                   min="0.01" formControlName="price"/>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
