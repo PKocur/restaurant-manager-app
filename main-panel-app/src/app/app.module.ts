@@ -9,12 +9,18 @@ import {InformationComponent} from './component/information/information.componen
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import {MealsComponent} from './component/meals/meals.component';
+import { LoginComponent } from './component/login/login.component';
+import { LogoutComponent } from './component/logout/logout.component';
+import { HomeComponent } from './component/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InformationComponent,
-    MealsComponent
+    MealsComponent,
+    LoginComponent,
+    LogoutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

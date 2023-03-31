@@ -13,7 +13,7 @@ export class MealsComponent implements OnInit {
   meals!: Meal[];
   addMealModal: any;
 
-  checkoutForm = this.formBuilder.group({
+  addMealForm = this.formBuilder.group({
     name: '',
     price: ''
   });
@@ -22,20 +22,19 @@ export class MealsComponent implements OnInit {
               private formBuilder: FormBuilder) {
   }
 
-  onSubmit(): void {
-    this.addMeal({
-      "name": this.checkoutForm.value.name,
-      "price": Number(this.checkoutForm.value.price)
-    });
-    this.checkoutForm.reset();
-  }
-
-
   ngOnInit() {
     this.getMeals();
     this.addMealModal = new window.bootstrap.Modal(
       document.getElementById('addMealModal')
     );
+  }
+
+  onAddMealFormSubmit(): void {
+    this.addMeal({
+      "name": this.addMealForm.value.name,
+      "price": Number(this.addMealForm.value.price)
+    });
+    this.addMealForm.reset();
   }
 
   getMeals() {

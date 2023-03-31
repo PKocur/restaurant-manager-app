@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {RouterModule} from "@angular/router";
+import {AuthorizationService} from "../../service/authorization.service";
+import {audit} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -8,4 +10,14 @@ import {RouterModule} from "@angular/router";
 })
 export class AppComponent {
 
+  constructor(public authorizationService: AuthorizationService) {
+  }
+
+  logOut() {
+    this.authorizationService.logOut()
+  }
+
+  isLoggedIn(): boolean {
+    return this.authorizationService.isLoggedIn();
+  }
 }

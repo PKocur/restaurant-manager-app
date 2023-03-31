@@ -15,7 +15,7 @@ export class MainPanelService {
 
   public getMeals(): Observable<Meal[]> {
     const headers = {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJyb2xlcyI6IlJPTEVfQURNSU4iLCJpc3MiOiJyZXN0YXVyYW50X21hbmFnZXIiLCJpYXQiOjE2Nzk3MzgwOTQsImVtYWlsIjoiYWJjQGFiYy5jb20ifQ.TM4tL95v5UxuNsjGLNhI1K8xmTyb3ToKz19Y7xCBX6o',
+      'Authorization': 'Bearer ' + localStorage.getItem("bearerToken"),
       observe: 'response'
     }
     const requestOptions = {
@@ -26,7 +26,7 @@ export class MainPanelService {
 
   public addMeal(meal: Partial<Meal>): Observable<any> {
     const headers = {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJyb2xlcyI6IlJPTEVfYWRtaW4iLCJpc3MiOiJyZXN0YXVyYW50X21hbmFnZXIiLCJpYXQiOjE2Nzk3NTQyNzgsImVtYWlsIjoiYWJjQGFiYy5jb20ifQ._r2FTIXkrTehdp8Es6VEmoE2EmYnxI0KaqtVg_Q8LoQ',
+      'Authorization': 'Bearer ' + localStorage.getItem("bearerToken"),
       observe: 'response'
     }
     const requestOptions = {
@@ -38,7 +38,7 @@ export class MainPanelService {
 
   public removeMeal(id: number): Observable<any> {
     const headers = {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJyb2xlcyI6IlJPTEVfYWRtaW4iLCJpc3MiOiJyZXN0YXVyYW50X21hbmFnZXIiLCJpYXQiOjE2Nzk3NTQyNzgsImVtYWlsIjoiYWJjQGFiYy5jb20ifQ._r2FTIXkrTehdp8Es6VEmoE2EmYnxI0KaqtVg_Q8LoQ'
+      'Authorization': 'Bearer ' + localStorage.getItem("bearerToken")
     }
     const requestOptions = {
       headers: new HttpHeaders(headers),
