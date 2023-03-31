@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {LoginForm} from "../model/loginForm";
+import {Constants} from "../common/Constants";
+import {AuthorizationUtil} from "../common/AuthorizationUtil";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
-
-  public baseUrl = "http://localhost:8080/main-panel/";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -20,7 +20,7 @@ export class AuthorizationService {
       headers: new HttpHeaders(headers),
       observe: 'response' as 'body'
     };
-    return this.httpClient.post(this.baseUrl + "users/login", loginForm, requestOptions);
+    return this.httpClient.post(Constants.API_ENDPOINT + "users/login", loginForm, requestOptions);
   }
 
   public logOut() {
@@ -28,7 +28,7 @@ export class AuthorizationService {
   }
 
   public isLoggedIn(): boolean {
-    const bearerToken: string | null = localStorage.getItem("bearerToken")
+    const bearerToken: string | null = AuthorizationUtil.getBearerToken()
     return bearerToken != null && bearerToken.length != 0
   }
 }

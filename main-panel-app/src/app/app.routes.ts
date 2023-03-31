@@ -4,7 +4,7 @@ import {AppComponent} from './component/app/app.component'
 import {InformationComponent} from './component/information/information.component'
 import {MealsComponent} from "./component/meals/meals.component";
 import {LoginComponent} from "./component/login/login.component";
-import {AuthorizationGuard} from "./component/common/authorization-guard.service";
+import {AuthorizationGuard} from "./common/authorization-guard.service";
 import {LogoutComponent} from "./component/logout/logout.component";
 import {HomeComponent} from "./component/home/home.component";
 
