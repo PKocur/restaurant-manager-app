@@ -13,4 +13,14 @@ export class AuthorizationUtil {
       return null;
     }
   }
+
+  public static validateUserRoleForApp(token: string, requiredRole: string): boolean {
+    try {
+      const decodedToken: any = jwt_decode(token);
+      const roles: string = decodedToken.roles;
+      return roles.includes(requiredRole)
+    } catch (Error) {
+      return false;
+    }
+  }
 }

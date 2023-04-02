@@ -15,6 +15,9 @@
         <li class="nav-item" *ngIf="!isLoggedIn()">
           <a class="nav-link" href="#" [routerLink]="['login']" [routerLinkActive]="['active']">Log in</a>
         </li>
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link" href="#" [routerLink]="['register']" [routerLinkActive]="['active']">Register</a>
+        </li>
         <li class="nav-item" *ngIf="isLoggedIn()">
           <a class="nav-link" href="#" [routerLink]="['meals']" [routerLinkActive]="['active']">Meals</a>
         </li>

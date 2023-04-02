@@ -5,6 +5,7 @@ import {AuthorizationService} from "../../service/authorization.service";
 import {Meal} from "../../model/meal";
 import {LoginForm} from "../../model/loginForm";
 import {Router} from "@angular/router";
+import {AuthorizationUtil} from "../../common/AuthorizationUtil";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
 
   loginFormFromView = this.formBuilder.group({
     email: '',
@@ -33,12 +33,21 @@ export class LoginComponent {
   }
 
   logIn(loginForm: LoginForm) {
-    this.authorizationService.logIn(loginForm).subscribe(data => {
-      if (data) {
-        localStorage.setItem("bearerToken", data.body.jwtToken)
-        this.router.navigate([''])
-        // this.getMeals();
-      }
-    });
+    this.authorizationService.logIn(loginForm).subscribe(
+      result => {
+        if (this.authorizationService.validateAccess(result.body.jwtToken)) {
+          this.authorizationService.handleSuccessfulLogin(result.body)
+          this.router.navigate([''])
+        } else {
+          window.alert("Insufficient privileges.");
+        }
+      },
+      error => {
+        if (error.status === 401) {
+          window.alert("Invalid credentials.");
+        } else {
+          window.alert("Other error.");
+        }
+      });
   }
 }
