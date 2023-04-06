@@ -12,10 +12,17 @@ declare var window: any;
 export class MealsComponent implements OnInit {
   meals!: Meal[];
   addMealModal: any;
+  editMealModal: any;
+  editMealId: number | null | undefined = null;
 
   addMealForm = this.formBuilder.group({
     name: '',
     price: ''
+  });
+
+  editMealForm = this.formBuilder.group({
+    editName: '',
+    editPrice: ''
   });
 
   constructor(private mainPanelService: MainPanelService,
@@ -27,6 +34,9 @@ export class MealsComponent implements OnInit {
     this.addMealModal = new window.bootstrap.Modal(
       document.getElementById('addMealModal')
     );
+    this.editMealModal = new window.bootstrap.Modal(
+      document.getElementById('editMealModal')
+    );
   }
 
   onAddMealFormSubmit(): void {
@@ -37,6 +47,18 @@ export class MealsComponent implements OnInit {
     this.addMealForm.reset();
   }
 
+
+  onEditMealFormSubmit(mealId: number | null | undefined) {
+    if (!mealId) {
+      return
+    }
+    this.editMeal(mealId, {
+      "name": this.editMealForm.value.editName,
+      "price": Number(this.editMealForm.value.editPrice)
+    });
+    this.closeEditMealModal()
+  }
+
   getMeals() {
     this.mainPanelService.getMeals().subscribe(data => {
       this.meals = data;
@@ -45,6 +67,14 @@ export class MealsComponent implements OnInit {
 
   addMeal(meal: Partial<Meal>) {
     this.mainPanelService.addMeal(meal).subscribe(data => {
+      if (data) {
+        this.getMeals();
+      }
+    });
+  }
+
+  editMeal(mealId: number, meal: Partial<Meal>) {
+    this.mainPanelService.editMeal(mealId, meal).subscribe(data => {
       if (data) {
         this.getMeals();
       }
@@ -67,5 +97,14 @@ export class MealsComponent implements OnInit {
 
   closeAddMealModal() {
     this.addMealModal.hide();
+  }
+
+  openEditMealModal(mealId: number | null | undefined) {
+    this.editMealId = mealId;
+    this.editMealModal.show();
+  }
+
+  closeEditMealModal() {
+    this.editMealModal.hide();
   }
 }

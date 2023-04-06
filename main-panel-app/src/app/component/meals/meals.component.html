@@ -4,7 +4,7 @@
       <span class="fs-3">{{meal.name}}</span>
       <span class="fs-3"> - {{meal.price}} zł</span>
     </div>
-    <button class="m-1 btn btn-info" (click)="removeMeal(meal.id)">Edit</button>
+    <button class="m-1 btn btn-info" (click)="openEditMealModal(meal.id)">Edit</button>
     <button class="m-1 btn btn-danger" (click)="removeMeal(meal.id)">Delete</button>
   </div>
   <button class="display-1 mx-5 col-3 my-3 alert alert-info" (click)="openAddMealModal()">
@@ -12,6 +12,7 @@
   </button>
 </div>
 
+<!-- Add meal modal-->
 
 <div
   class="modal fade"
@@ -23,7 +24,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add meal</h5>
+        <h5 class="modal-title">Add meal</h5>
         <button
           type="button"
           class="btn-close"
@@ -54,6 +55,56 @@
           </button>
           <button type="submit" class="btn btn-primary">
             Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit meal modal-->
+
+<div
+  class="modal fade"
+  id="editMealModal"
+  tabindex="-1"
+  aria-labelledby="editMealModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit meal</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [noValidate]="false" [formGroup]="editMealForm" (ngSubmit)="onEditMealFormSubmit(editMealId)">
+        <div class="modal-body">
+          <div class="my-2 form-group">
+            <label for="editName">
+              Name
+            </label>
+            <input class="form-control" id="editName" type="text" placeholder="Enter updated meal name" required minlength="3"
+                   maxlength="50" formControlName="editName"/>
+          </div>
+          <div class="my-2 form-group">
+            <label for="editPrice">
+              Price
+            </label>
+            <input class="form-control" id="editPrice" type="number" placeholder="Enter updated meal price" required step="0.01"
+                   min="0.01" formControlName="editPrice"/>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Modify
           </button>
         </div>
       </form>
