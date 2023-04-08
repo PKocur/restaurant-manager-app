@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="mx-5 col-3 my-3" *ngFor="let meal of meals; let index=index">
+    <div class="alert alert-primary id" role="alert">
+      <span class="fs-3">{{meal.name}}</span>
+      <span class="fs-3"> - {{meal.price}} zł</span>
+    </div>
+    <button class="m-1 btn btn-info">+</button>
+  </div>
+</div>

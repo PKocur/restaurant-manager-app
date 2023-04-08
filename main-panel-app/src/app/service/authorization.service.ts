@@ -22,7 +22,7 @@ export class AuthorizationService {
       headers: new HttpHeaders(headers),
       observe: 'response' as 'body'
     };
-    return this.httpClient.post(Constants.API_ENDPOINT + "users/login", loginForm, requestOptions);
+    return this.httpClient.post(Constants.AUTHORIZATION_API_ENDPOINT + "users/login", loginForm, requestOptions);
   }
 
   public register(registrationForm: RegistrationForm): Observable<any> {
@@ -33,7 +33,7 @@ export class AuthorizationService {
       headers: new HttpHeaders(headers),
       observe: 'response' as 'body'
     };
-    return this.httpClient.post(Constants.API_ENDPOINT + "users/register", registrationForm, requestOptions);
+    return this.httpClient.post(Constants.AUTHORIZATION_API_ENDPOINT + "users/register", registrationForm, requestOptions);
   }
 
   public handleSuccessfulLogin(body: any): void {

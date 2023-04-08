@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {RouterModule} from "@angular/router";
 import {AuthorizationService} from "../../service/authorization.service";
-import {audit} from "rxjs";
 
 @Component({
   selector: 'app-root',
