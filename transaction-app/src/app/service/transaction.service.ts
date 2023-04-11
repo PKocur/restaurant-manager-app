@@ -13,7 +13,8 @@ import {TransactionForm} from "../model/transactionForm";
 })
 export class TransactionService {
   public transactionsUrl = Constants.API_ENDPOINT + 'transactions';
-  public ordersUrl = Constants.API_ENDPOINT + 'orders';
+  public pendingOrdersUrl = Constants.API_ENDPOINT + 'orders';
+  public ordersUrl = Constants.CUSTOMER_SERVICE_ENDPOINT + 'orders';
   public mealsUrl = Constants.MAIN_PANEL_API_ENDPOINT + 'meals';
 
   constructor(private httpClient: HttpClient) {
@@ -71,7 +72,7 @@ export class TransactionService {
     const requestOptions = {
       headers: new HttpHeaders(headers),
     };
-    return this.httpClient.get<Order[]>(this.ordersUrl, requestOptions);
+    return this.httpClient.get<Order[]>(this.pendingOrdersUrl, requestOptions);
   }
 
   public getOrder(id: number): Observable<Order> {
