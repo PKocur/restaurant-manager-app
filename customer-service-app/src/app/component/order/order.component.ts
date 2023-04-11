@@ -15,16 +15,14 @@ declare var window: any;
 export class OrderComponent implements OnInit {
   orders!: Order[];
   meals!: Meal[];
-  addedMeals: Map<Meal, number> = new Map<Meal, number>();
+  addedMeals: OrderedMeal[] = [];
   addOrderModal: any;
   orderModal: any;
-  orderedMeals!: OrderedMeal[];
+  orderedMeals: OrderedMeal[] = [];
 
   addOrderForm = this.formBuilder.group({
-    name: '',
-    price: ''
+    recognitionId: ''
   });
-
 
   constructor(private customerServiceManager: CustomerServiceManager,
               private formBuilder: FormBuilder) {
@@ -60,17 +58,34 @@ export class OrderComponent implements OnInit {
     this.orderModal.show();
   }
 
-  onAddOrderFormSubmit(order: Partial<Order>): void {
+  onAddOrderFormSubmit(): void {
+    this.addOrder({
+      "recognitionId": this.addOrderForm.value.recognitionId,
+      "meals": this.addedMeals
+    });
     this.addOrderForm.reset();
   }
 
+  addOrder(order: Partial<Order>): void {
+    this.customerServiceManager.addOrder(order).subscribe(data => {
+      if (data) {
+        this.getOrders();
+        this.closeAddOrderModal();
+      }
+    });
+  }
 
   openAddOrderModal() {
     this.addOrderModal.show();
   }
 
+  closeAddOrderModal() {
+    this.clearAddOrderModal();
+    this.addOrderModal.hide();
+  }
+
   clearAddOrderModal() {
-    this.addedMeals.clear();
+    this.addedMeals = [];
   }
 
   getOrderMeals(id: number | null | undefined): Meal[] {
@@ -87,12 +102,13 @@ export class OrderComponent implements OnInit {
   addMeal(id: number | null | undefined) {
     if (id) {
       this.customerServiceManager.getMeal(id).subscribe(meal => {
-        const mealFromMap = Array.from(this.addedMeals.keys()).find(m => m.id === meal.id);
-        if (mealFromMap) {
-          const quantity = this.addedMeals.get(mealFromMap) || 0;
-          this.addedMeals.set(mealFromMap, quantity + 1);
+        const mealFromList = this.addedMeals.find(m => m.id === meal.id);
+        if (mealFromList && mealFromList.quantity) {
+          const index = this.addedMeals.indexOf(mealFromList);
+          mealFromList.quantity++;
+          this.addedMeals[index] = mealFromList;
         } else {
-          this.addedMeals.set(meal, 1);
+          this.addedMeals.push({...meal, quantity: 1})
         }
       })
     }
@@ -100,23 +116,33 @@ export class OrderComponent implements OnInit {
 
   removeMeal(id: number | null | undefined) {
     if (id) {
-      const mealFromMap = Array.from(this.addedMeals.keys()).find(m => m.id === id);
-      if (mealFromMap) {
-        const quantity = this.addedMeals.get(mealFromMap) || 0;
-        if (quantity > 1) {
-          this.addedMeals.set(mealFromMap, quantity - 1);
+      const mealFromList = this.addedMeals.find(m => m.id === id);
+      if (mealFromList && mealFromList.quantity) {
+        if (mealFromList.quantity > 1) {
+          mealFromList.quantity--;
         } else {
-          this.addedMeals.delete(mealFromMap);
+          const index = this.addedMeals.indexOf(mealFromList);
+          this.addedMeals.splice(index, 1);
         }
       }
     }
   }
 
-  getTotalCost(): string {
+  getTotalCostOfAddedMeals(): string {
     let totalCost: number = 0;
-    this.addedMeals.forEach((quantity, meal) => {
-      if (meal.price) {
-        totalCost += meal.price * quantity;
+    this.addedMeals.forEach(meal => {
+      if (meal.price && meal.quantity) {
+        totalCost += meal.price * meal.quantity;
+      }
+    });
+    return totalCost.toFixed(2);
+  }
+
+  getTotalCostOfOrderedMeals(): string {
+    let totalCost: number = 0;
+    this.orderedMeals.forEach(meal => {
+      if (meal.price && meal.quantity) {
+        totalCost += meal.price * meal.quantity;
       }
     });
     return totalCost.toFixed(2);
