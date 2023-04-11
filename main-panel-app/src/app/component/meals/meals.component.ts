@@ -47,7 +47,6 @@ export class MealsComponent implements OnInit {
     this.addMealForm.reset();
   }
 
-
   onEditMealFormSubmit(mealId: number | null | undefined) {
     if (!mealId) {
       return

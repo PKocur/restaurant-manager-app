@@ -1,0 +1,145 @@
+<div class="row">
+  <div class="mx-5 col-3 my-3" *ngFor="let order of orders; let index=index">
+    <div class="alert alert-primary id" role="alert" style="cursor: pointer;" (click)="openOrderModal(order.id)">
+      <span class="fs-3">
+        Order of <b>{{order.recognitionId}}</b>
+      </span>
+    </div>
+    <button class="m-1 btn btn-info" (click)="openTransactionFinalizationModal(order.id)">Finalize</button>
+    <button class="m-1 btn btn-danger" (click)="openTransactionCancellationModal(order.id)">Cancel</button>
+  </div>
+</div>
+
+<!-- Order details modal -->
+
+<div
+  class="modal fade"
+  id="orderModal"
+  tabindex="-1"
+  aria-labelledby="orderModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Order details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center align-items-center">
+          <p class="m-3 fs-2 text-center">The order:</p>
+          <div class="m-3 col-3 my-3" *ngFor="let meal of orderedMeals">
+            <div class="alert alert-primary id text-center" role="alert">
+              <span class="fs-3"><b>{{meal.name}}</b></span>
+              <span class="fs-3"> - {{meal.quantity}}</span>
+              <div class="fs-3">{{ (meal.price ?? 0) * (meal.quantity ?? 0) }} zł</div>
+            </div>
+          </div>
+          <div class="text-center">
+            <p *ngIf="orderedMeals.length > 0" class="fs-4">Total value: {{getTotalCostOfOrderedMeals()}} zł</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Transaction finalization modal-->
+
+<div
+  class="modal fade"
+  id="transactionFinalizationModal"
+  tabindex="-1"
+  aria-labelledby="transactionFinalizationModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Transaction finalization</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [noValidate]="false" [formGroup]="transactionFinalizationForm"
+            (ngSubmit)="onTransactionFinalizationFormSubmit()">
+        <div class="modal-body">
+          <div class="my-2 form-group">
+            <label for="comment">
+              Comment
+            </label>
+            <input class="form-control" id="comment" type="text" placeholder="Enter optional comment" minlength="3"
+                   maxlength="50" formControlName="comment"/>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Finalize
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Transaction cancellation modal-->
+
+<div
+  class="modal fade"
+  id="transactionCancellationModal"
+  tabindex="-1"
+  aria-labelledby="transactionCancellationModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Transaction cancellation</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [noValidate]="false" [formGroup]="transactionCancellationForm"
+            (ngSubmit)="onTransactionCancellationFormSubmit()">
+        <div class="modal-body">
+          <div class="my-2 form-group">
+            <label for="cancelComment">
+              Comment
+            </label>
+            <input class="form-control" id="cancelComment" type="text" placeholder="Enter optional comment" required
+                   minlength="3"
+                   maxlength="50" formControlName="cancelComment"/>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

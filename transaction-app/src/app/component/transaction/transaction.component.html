@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="mx-5 col-3 my-3" *ngFor="let transaction of transactions; let index=index">
+    <div class="alert alert-primary text-center id" role="alert" style="cursor: pointer;"
+         (click)="openTransactionModal(transaction.id)">
+      <div *ngIf="transaction.order" class="fs-3"><b>{{transaction.order.recognitionId}}</b></div>
+      <span class="fs-3">{{transaction.status}}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Transaction details modal -->
+
+<div
+  class="modal fade"
+  id="transactionModal"
+  tabindex="-1"
+  aria-labelledby="transactionModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Transaction details</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center align-items-center text-center">
+          <div *ngIf="transaction" class="row d-flex justify-content-center align-items-center">
+            <p *ngIf="transaction.order" class="m-3 fs-2 text-center">The transaction of
+              <b>{{transaction.order.recognitionId}}</b>:</p>
+            <div class="fs-3">{{transaction.status}}</div>
+            <div class="fs-4 mb-3">{{transaction.comment}}</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
