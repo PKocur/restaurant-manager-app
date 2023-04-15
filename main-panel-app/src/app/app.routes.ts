@@ -8,6 +8,7 @@ import {AuthorizationGuard} from "./common/authorization-guard.service";
 import {LogoutComponent} from "./component/logout/logout.component";
 import {HomeComponent} from "./component/home/home.component";
 import {RegistrationComponent} from "./component/registration/registration.component";
+import {AnalyticsComponent} from "./component/analytics/analytics.component";
 
 export const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -16,5 +17,6 @@ export const appRoutes: Routes = [
   {path: 'logout', component: LogoutComponent},
   {path: 'meals', component: MealsComponent, canActivate: [AuthorizationGuard]},
   {path: 'information', component: InformationComponent},
+  {path: 'analytics', component: AnalyticsComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
 ];

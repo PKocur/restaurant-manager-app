@@ -26,6 +26,9 @@
           <a class="nav-link" href="#" [routerLink]="['information']" [routerLinkActive]="['active']">Information</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link" href="#" [routerLink]="['analytics']" [routerLinkActive]="['active']">Analytics</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()">
           <a class="nav-link" href="#" [routerLink]="['logout']" [routerLinkActive]="['active']" (click)="logOut()">Logout</a>
         </li>
       </ul>
