@@ -45,6 +45,7 @@ export class MealsComponent implements OnInit {
       "price": Number(this.addMealForm.value.price)
     });
     this.addMealForm.reset();
+    this.closeAddMealModal();
   }
 
   onEditMealFormSubmit(mealId: number | null | undefined) {

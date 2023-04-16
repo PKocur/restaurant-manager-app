@@ -35,6 +35,17 @@
               <b>{{transaction.order.recognitionId}}</b>:</p>
             <div class="fs-3">{{transaction.status}}</div>
             <div class="fs-4 mb-3">{{transaction.comment}}</div>
+            <p class="m-3 fs-2 text-center">The order:</p>
+            <div class="m-3 col-3 my-3" *ngFor="let meal of orderedMeals">
+              <div class="alert alert-primary id text-center" role="alert">
+                <span class="fs-3"><b>{{meal.name}}</b></span>
+                <span class="fs-3"> - {{meal.quantity}}</span>
+                <div class="fs-3">{{ (meal.price ?? 0) * (meal.quantity ?? 0) }} zł</div>
+              </div>
+            </div>
+            <div class="text-center">
+              <p *ngIf="orderedMeals.length > 0" class="fs-4">Total value: {{getTotalCostOfOrderedMeals()}} zł</p>
+            </div>
           </div>
         </div>
         <div class="modal-footer">

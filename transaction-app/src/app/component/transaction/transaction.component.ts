@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TransactionService} from "../../service/transaction.service";
 import {Transaction} from "../../model/transaction";
+import {OrderedMeal} from "../../model/orderedMeal";
 declare var window: any;
 
 
@@ -13,6 +14,7 @@ export class TransactionComponent implements OnInit {
   transactions!: Transaction[];
   transaction!: Transaction;
   transactionModal: any;
+  orderedMeals: OrderedMeal[] = [];
 
   constructor(private transactionService: TransactionService) {
   }
@@ -33,6 +35,9 @@ export class TransactionComponent implements OnInit {
   getTransaction(id: number) {
     this.transactionService.getTransaction(id).subscribe(data => {
       this.transaction = data;
+      if (data.order?.meals) {
+        this.orderedMeals = data.order.meals;
+      }
     })
   }
 
@@ -41,6 +46,16 @@ export class TransactionComponent implements OnInit {
       this.getTransaction(id);
     }
     this.transactionModal.show();
+  }
+
+  getTotalCostOfOrderedMeals(): string {
+    let totalCost: number = 0;
+    this.orderedMeals.forEach(meal => {
+      if (meal.price && meal.quantity) {
+        totalCost += meal.price * meal.quantity;
+      }
+    });
+    return totalCost.toFixed(2);
   }
 }
 
