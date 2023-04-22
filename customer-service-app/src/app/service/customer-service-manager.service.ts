@@ -12,6 +12,7 @@ import {Order} from "../model/order";
 export class CustomerServiceManager {
   public ordersUrl = Constants.API_ENDPOINT + 'orders';
   public mealsUrl = Constants.MAIN_PANEL_API_ENDPOINT + 'meals';
+  public pendingOrdersUrl = Constants.TRANSACTION_API_ENDPOINT + 'orders';
 
   constructor(private httpClient: HttpClient) {
   }
@@ -38,7 +39,7 @@ export class CustomerServiceManager {
     return this.httpClient.get<Meal>(this.mealsUrl + "/" + id, requestOptions);
   }
 
-  public getOrders(): Observable<Order[]> {
+  public getPendingOrders(): Observable<Order[]> {
     const headers = {
       'Authorization': 'Bearer ' + AuthorizationUtil.getBearerToken(),
       observe: 'response'
@@ -46,7 +47,7 @@ export class CustomerServiceManager {
     const requestOptions = {
       headers: new HttpHeaders(headers),
     };
-    return this.httpClient.get<Order[]>(this.ordersUrl, requestOptions);
+    return this.httpClient.get<Order[]>(this.pendingOrdersUrl, requestOptions);
   }
 
   public getOrder(id: number): Observable<Order> {

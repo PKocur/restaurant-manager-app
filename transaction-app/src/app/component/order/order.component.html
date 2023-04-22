@@ -1,12 +1,24 @@
 <div class="row">
-  <p class="my-3 display-2 text-center">Orders</p>
+  <p class="my-3 display-2 text-center">Pending orders</p>
+</div>
+<div class="row">
+  <div class="text-center offset-3 col-6">
+    <div class="d-flex">
+      <input class="form-control mr-2" type="search" placeholder="Search order by recognition id" aria-label="Search"
+             #recognitionIdInput>
+      <button class="btn btn-outline-success mx-2" (click)="getOrdersByRecognitionId(recognitionIdInput.value)">Search
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row">
   <div class="mt-5 mx-5 col-3 my-3" *ngFor="let order of orders; let index=index">
     <div class="alert alert-primary id" role="alert" style="cursor: pointer;" (click)="openOrderModal(order.id)">
       <span class="fs-3">
-        Order of <b>{{order.recognitionId}}</b>
+        Order from <b>{{order.recognitionId}}</b>
       </span>
     </div>
-    <button class="m-1 btn btn-info" (click)="openTransactionFinalizationModal(order.id)">Finalize</button>
+    <button class="m-1 btn btn-primary" (click)="openTransactionFinalizationModal(order.id)">Finalize</button>
     <button class="m-1 btn btn-danger" (click)="openTransactionCancellationModal(order.id)">Cancel</button>
   </div>
 </div>

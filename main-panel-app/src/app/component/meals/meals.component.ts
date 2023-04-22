@@ -14,6 +14,7 @@ export class MealsComponent implements OnInit {
   addMealModal: any;
   editMealModal: any;
   editMealId: number | null | undefined = null;
+  lastMealName: string = ""
 
   addMealForm = this.formBuilder.group({
     name: '',
@@ -30,7 +31,7 @@ export class MealsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMeals();
+    this.getMealsByName(this.lastMealName);
     this.addMealModal = new window.bootstrap.Modal(
       document.getElementById('addMealModal')
     );
@@ -59,8 +60,9 @@ export class MealsComponent implements OnInit {
     this.closeEditMealModal()
   }
 
-  getMeals() {
-    this.mainPanelService.getMeals().subscribe(data => {
+  getMealsByName(name: string) {
+    this.lastMealName = name;
+    this.mainPanelService.getMealsByName(name).subscribe(data => {
       this.meals = data;
     })
   }
@@ -68,7 +70,7 @@ export class MealsComponent implements OnInit {
   addMeal(meal: Partial<Meal>) {
     this.mainPanelService.addMeal(meal).subscribe(data => {
       if (data) {
-        this.getMeals();
+        this.getMealsByName(this.lastMealName);
       }
     });
   }
@@ -76,7 +78,7 @@ export class MealsComponent implements OnInit {
   editMeal(mealId: number, meal: Partial<Meal>) {
     this.mainPanelService.editMeal(mealId, meal).subscribe(data => {
       if (data) {
-        this.getMeals();
+        this.getMealsByName(this.lastMealName);
       }
     });
   }
@@ -85,7 +87,7 @@ export class MealsComponent implements OnInit {
     if (id) {
       this.mainPanelService.removeMeal(id).subscribe(data => {
         if (data) {
-          this.getMeals();
+          this.getMealsByName(this.lastMealName);
         }
       });
     }

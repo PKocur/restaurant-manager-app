@@ -46,7 +46,7 @@ export class OrderComponent implements OnInit {
   }
 
   getOrders() {
-    this.customerServiceManager.getOrders().subscribe(data => {
+    this.customerServiceManager.getPendingOrders().subscribe(data => {
       this.orders = data;
     })
   }

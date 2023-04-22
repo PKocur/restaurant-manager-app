@@ -75,6 +75,21 @@ export class TransactionService {
     return this.httpClient.get<Order[]>(this.pendingOrdersUrl, requestOptions);
   }
 
+  public getOrdersByRecognitionId(recognitionId: string): Observable<Order[]> {
+    const headers = {
+      'Authorization': 'Bearer ' + AuthorizationUtil.getBearerToken(),
+      observe: 'response'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headers),
+    };
+    if (recognitionId.length > 0) {
+      return this.httpClient.get<Order[]>(this.pendingOrdersUrl + "?recognitionId=" + recognitionId, requestOptions);
+    } else {
+      return this.httpClient.get<Order[]>(this.pendingOrdersUrl, requestOptions);
+    }
+  }
+
   public getOrder(id: number): Observable<Order> {
     const headers = {
       'Authorization': 'Bearer ' + AuthorizationUtil.getBearerToken(),

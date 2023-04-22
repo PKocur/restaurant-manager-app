@@ -3,7 +3,7 @@
   <div class="mt-5 mx-5 col-3 my-3" *ngFor="let transaction of transactions; let index=index">
     <div class="alert alert-primary text-center id" role="alert" style="cursor: pointer;"
          (click)="openTransactionModal(transaction.id)">
-      <div *ngIf="transaction.order" class="fs-3"><b>{{transaction.order.recognitionId}}</b></div>
+      <div *ngIf="transaction.order" class="fs-3">Transaction of order from <b>{{transaction.order.recognitionId}}</b></div>
       <span class="fs-3">{{transaction.status}}</span>
     </div>
   </div>

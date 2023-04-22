@@ -1,5 +1,17 @@
 <div class="row">
   <p class="my-3 display-2 text-center">Meals</p>
+</div>
+<div class="row">
+  <div class="text-center offset-3 col-6">
+    <div class="d-flex">
+      <input class="form-control mr-2" type="search" placeholder="Search meal by name" aria-label="Search"
+             #nameInput>
+      <button class="btn btn-outline-success mx-2" (click)="getMealsByName(nameInput.value)">Search
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row">
   <div class="mt-5 mx-5 col-3 my-3" *ngFor="let meal of meals; let index=index">
     <div class="alert alert-primary id" role="alert">
       <span class="fs-3">{{meal.name}}</span>
@@ -89,14 +101,16 @@
             <label for="editName">
               Name
             </label>
-            <input class="form-control" id="editName" type="text" placeholder="Enter updated meal name" required minlength="3"
+            <input class="form-control" id="editName" type="text" placeholder="Enter updated meal name" required
+                   minlength="3"
                    maxlength="50" formControlName="editName"/>
           </div>
           <div class="my-2 form-group">
             <label for="editPrice">
               Price
             </label>
-            <input class="form-control" id="editPrice" type="number" placeholder="Enter updated meal price" required step="0.01"
+            <input class="form-control" id="editPrice" type="number" placeholder="Enter updated meal price" required
+                   step="0.01"
                    min="0.01" formControlName="editPrice"/>
           </div>
         </div>

@@ -17,7 +17,7 @@ export class MainPanelService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getMeals(): Observable<Meal[]> {
+  public getMealsByName(name: string): Observable<Meal[]> {
     const headers = {
       'Authorization': 'Bearer ' + AuthorizationUtil.getBearerToken(),
       observe: 'response'
@@ -25,7 +25,11 @@ export class MainPanelService {
     const requestOptions = {
       headers: new HttpHeaders(headers),
     };
-    return this.httpClient.get<Meal[]>(this.mealsUrl, requestOptions);
+    if (name.length > 0) {
+      return this.httpClient.get<Meal[]>(this.mealsUrl + "?name=" + name, requestOptions);
+    } else {
+      return this.httpClient.get<Meal[]>(this.mealsUrl, requestOptions);
+    }
   }
 
   public getMeal(mealId: number): Observable<Meal> {

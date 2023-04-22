@@ -20,6 +20,7 @@ export class OrderComponent implements OnInit {
   orderModal: any;
   orderedMeals: OrderedMeal[] = [];
   orderId!: number;
+  lastRecognitionId: string = "";
 
   transactionFinalizationForm = this.formBuilder.group({
     comment: '',
@@ -36,7 +37,7 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getOrders();
+    this.getOrdersByRecognitionId(this.lastRecognitionId);
     this.orderModal = new window.bootstrap.Modal(
       document.getElementById('orderModal')
     );
@@ -48,8 +49,9 @@ export class OrderComponent implements OnInit {
     );
   }
 
-  getOrders() {
-    this.transactionService.getOrders().subscribe(data => {
+  getOrdersByRecognitionId(recognitionId: string) {
+    this.lastRecognitionId = recognitionId;
+    this.transactionService.getOrdersByRecognitionId(recognitionId).subscribe(data => {
       this.orders = data;
     })
   }
@@ -69,7 +71,7 @@ export class OrderComponent implements OnInit {
     });
     this.transactionFinalizationForm.reset();
     this.closeTransactionFinalizationModal();
-    this.getOrders();
+    this.getOrdersByRecognitionId(this.lastRecognitionId);
   }
 
   onTransactionCancellationFormSubmit(): void {
@@ -80,7 +82,7 @@ export class OrderComponent implements OnInit {
     });
     this.transactionCancellationForm.reset();
     this.closeTransactionCancellationModal();
-    this.getOrders();
+    this.getOrdersByRecognitionId(this.lastRecognitionId);
   }
 
   finalizeTransaction(transaction: TransactionForm) {
