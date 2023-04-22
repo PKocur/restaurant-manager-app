@@ -16,7 +16,7 @@ export class RegistrationComponent {
     lastName: '',
     email: '',
     password: '',
-    role: 'admin'
+    roles: ['admin']
   });
 
   constructor(private authorizationService: AuthorizationService,
@@ -25,12 +25,14 @@ export class RegistrationComponent {
   }
 
   onRegistrationFormSubmit() {
+    const roles = this.registrationFormFromView.value.roles;
+    const rolesArray = roles ? Array.from(roles) : [];
     this.register({
       "firstName": this.registrationFormFromView.value.firstName,
       "lastName": this.registrationFormFromView.value.lastName,
       "email": this.registrationFormFromView.value.email,
       "password": this.registrationFormFromView.value.password,
-      "role": this.registrationFormFromView.value.role
+      "roles": rolesArray
     })
     this.registrationFormFromView.reset();
   }

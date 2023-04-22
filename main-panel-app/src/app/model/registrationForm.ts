@@ -3,5 +3,5 @@ export interface RegistrationForm {
   lastName: string | null | undefined;
   email: string | null | undefined;
   password: string | null | undefined;
-  role: string | null | undefined;
+  roles: string[] | null | undefined;
 }
