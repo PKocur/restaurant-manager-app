@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Meal} from "../model/meal";
 import {Constants} from "../common/Constants";
 import {AuthorizationUtil} from "../common/AuthorizationUtil";
-import {Information} from "../model/information";
 import {OrdersCount} from "../model/ordersCount";
 import {TotalIncome} from "../model/totalIncome";
+import {QuantitiesPerMeals} from "../model/QuantitiesPerMeals";
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +38,14 @@ export class AnalyticsService {
     return this.httpClient.get<TotalIncome>(this.analyticsUrl + 'total-income', requestOptions);
   }
 
+  public getQuantitiesPerMeals(): Observable<QuantitiesPerMeals> {
+    const headers = {
+      'Authorization': 'Bearer ' + AuthorizationUtil.getBearerToken(),
+      observe: 'response'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headers),
+    };
+    return this.httpClient.get<QuantitiesPerMeals>(this.analyticsUrl + 'quantities-per-meals', requestOptions);
+  }
 }
