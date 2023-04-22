@@ -1,5 +1,6 @@
 <div class="row">
-  <div class="mx-5 col-3 my-3" *ngFor="let transaction of transactions; let index=index">
+  <p class="my-3 display-2 text-center">Transactions</p>
+  <div class="mt-5 mx-5 col-3 my-3" *ngFor="let transaction of transactions; let index=index">
     <div class="alert alert-primary text-center id" role="alert" style="cursor: pointer;"
          (click)="openTransactionModal(transaction.id)">
       <div *ngIf="transaction.order" class="fs-3"><b>{{transaction.order.recognitionId}}</b></div>
@@ -31,12 +32,13 @@
       <div class="modal-body">
         <div class="row d-flex justify-content-center align-items-center text-center">
           <div *ngIf="transaction" class="row d-flex justify-content-center align-items-center">
-            <p *ngIf="transaction.order" class="m-3 fs-2 text-center">The transaction of
+            <p *ngIf="transaction.order" class="my-3 fs-2 text-center">The transaction of
               <b>{{transaction.order.recognitionId}}</b>:</p>
             <div class="fs-3">{{transaction.status}}</div>
             <div class="fs-4 mb-3">{{transaction.comment}}</div>
-            <p class="m-3 fs-2 text-center">The order:</p>
-            <div class="m-3 col-3 my-3" *ngFor="let meal of orderedMeals">
+            <hr class="bg-danger border-2 border-top border-secondary">
+            <p class="my-3 fs-2 text-center">The order:</p>
+            <div class="my-3 col-3 my-3" *ngFor="let meal of orderedMeals">
               <div class="alert alert-primary id text-center" role="alert">
                 <span class="fs-3"><b>{{meal.name}}</b></span>
                 <span class="fs-3"> - {{meal.quantity}}</span>

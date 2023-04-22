@@ -25,4 +25,12 @@ export class HomeComponent {
   redirectToLogin() {
     this.router.navigate(['login'])
   }
+
+  redirectToMeals() {
+    this.router.navigate(['meals'])
+  }
+
+  redirectToOrders() {
+    this.router.navigate(['orders'])
+  }
 }

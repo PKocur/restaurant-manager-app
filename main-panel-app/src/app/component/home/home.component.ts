@@ -29,4 +29,16 @@ export class HomeComponent {
   redirectToRegistration() {
     this.router.navigate(['register'])
   }
+
+  redirectToMeals() {
+    this.router.navigate(['meals'])
+  }
+
+  redirectToInformation() {
+    this.router.navigate(['information'])
+  }
+
+  redirectToAnalytics() {
+    this.router.navigate(['analytics'])
+  }
 }

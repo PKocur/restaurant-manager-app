@@ -1,4 +1,5 @@
 <div class="row">
+  <p class="my-3 display-2 text-center">Restuarant information</p>
   <div *ngIf="information" class="offset-3 col-6 text-center mt-5">
     <div class="fs-4">Name:</div>
     <div class="mb-3 display-3">{{information.name}}</div>
@@ -10,7 +11,7 @@
     <div class="mb-3 fs-1">{{information.street}}</div>
     <div class="mt-5 fs-4">Street number:</div>
     <div class="mb-3 fs-1">{{information.streetNumber}}</div>
-    <div class="mt-5 offset-3 col-6 d-grid">
+    <div class="my-5 offset-3 col-6 d-grid">
       <button class="btn btn-outline-secondary btn-block" (click)="openEditInformationModal()">Edit</button>
     </div>
   </div>
@@ -76,8 +77,8 @@
             <label for="addStreetNumber">
               Street number
             </label>
-            <input class="form-control" id="addStreetNumber" type="number" placeholder="Enter restaurant street number" required step="0.01"
-                   min="0.01" formControlName="addStreetNumber"/>
+            <input class="form-control" id="addStreetNumber" type="number" placeholder="Enter restaurant street number" required step="1"
+                   min="1" formControlName="addStreetNumber"/>
           </div>
         </div>
         <div class="modal-footer">

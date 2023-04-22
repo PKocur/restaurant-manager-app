@@ -1,10 +1,11 @@
 <div class="row">
-  <div class="mx-5 col-3 my-3" *ngFor="let meal of meals; let index=index">
+  <p class="my-3 display-2 text-center">Meals</p>
+  <div class="mt-5 mx-5 col-3 my-3" *ngFor="let meal of meals; let index=index">
     <div class="alert alert-primary id" role="alert">
       <span class="fs-3">{{meal.name}}</span>
       <span class="fs-3"> - {{meal.price}} zł</span>
     </div>
-    <button class="m-1 btn btn-info" (click)="openEditMealModal(meal.id)">Edit</button>
+    <button class="m-1 btn btn-primary" (click)="openEditMealModal(meal.id)">Edit</button>
     <button class="m-1 btn btn-danger" (click)="removeMeal(meal.id)">Delete</button>
   </div>
   <button class="display-1 mx-5 col-3 my-3 alert alert-info" (click)="openAddMealModal()">
