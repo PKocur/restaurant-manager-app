@@ -19,11 +19,16 @@ export class OrderComponent implements OnInit {
   meals!: Meal[];
   addedMeals: OrderedMeal[] = [];
   addOrderModal: any;
+  editOrderModal: any;
   orderModal: any;
   orderedMeals: OrderedMeal[] = [];
 
   addOrderForm = this.formBuilder.group({
     recognitionId: ''
+  });
+
+  editOrderForm = this.formBuilder.group({
+    editRecognitionId: ''
   });
 
   constructor(private customerServiceManager: CustomerServiceManager,
@@ -35,6 +40,9 @@ export class OrderComponent implements OnInit {
     this.getMeals();
     this.addOrderModal = new window.bootstrap.Modal(
       document.getElementById('addOrderModal')
+    );
+    this.editOrderModal = new window.bootstrap.Modal(
+      document.getElementById('editOrderModal')
     );
     this.orderModal = new window.bootstrap.Modal(
       document.getElementById('orderModal')
@@ -53,6 +61,12 @@ export class OrderComponent implements OnInit {
     })
   }
 
+  getOrder(id: number) {
+    this.customerServiceManager.getOrder(id).subscribe(data => {
+      this.order = data;
+    })
+  }
+
   openOrderModal(id: number | null | undefined) {
     if (id) {
       this.getOrderMeals(id);
@@ -68,11 +82,31 @@ export class OrderComponent implements OnInit {
     this.addOrderForm.reset();
   }
 
+  onEditOrderFormSubmit(id: number | null | undefined): void {
+    if (!id) {
+      return
+    }
+    this.editOrder(id, {
+      "recognitionId": this.editOrderForm.value.editRecognitionId,
+      "meals": this.addedMeals
+    });
+    this.editOrderForm.reset();
+  }
+
   addOrder(order: Partial<Order>): void {
     this.customerServiceManager.addOrder(order).subscribe(data => {
       if (data) {
         this.getOrders();
         this.closeAddOrderModal();
+      }
+    });
+  }
+
+  editOrder(id: number, order: Partial<Order>): void {
+    this.customerServiceManager.editOrder(id, order).subscribe(data => {
+      if (data) {
+        this.getOrders();
+        this.closeEditOrderModal();
       }
     });
   }
@@ -88,6 +122,11 @@ export class OrderComponent implements OnInit {
 
   clearAddOrderModal() {
     this.addedMeals = [];
+  }
+
+  closeEditOrderModal() {
+    this.clearAddOrderModal();
+    this.editOrderModal.hide();
   }
 
   getOrderMeals(id: number | null | undefined): Meal[] {
@@ -153,6 +192,23 @@ export class OrderComponent implements OnInit {
 
   getDate(date: string): string {
     return DateUtil.getFormattedDate(date);
+  }
+
+  openEditOrderModal(id: number | null | undefined) {
+    if (id) {
+      this.getOrder(id);
+    }
+    this.editOrderModal.show();
+  }
+
+  removeOrder(id: number | null | undefined) {
+    if (id) {
+      this.customerServiceManager.removeOrder(id).subscribe(data => {
+        if (data) {
+          this.getOrders();
+        }
+      });
+    }
   }
 }
 

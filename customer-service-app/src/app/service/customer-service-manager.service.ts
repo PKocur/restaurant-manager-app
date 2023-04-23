@@ -85,7 +85,7 @@ export class CustomerServiceManager {
     return this.httpClient.put(this.ordersUrl + "/" + id, order, requestOptions);
   }
 
-  public removeMeal(id: number): Observable<any> {
+  public removeOrder(id: number): Observable<any> {
     const headers = {
       'Authorization': 'Bearer ' + AuthorizationUtil.getBearerToken()
     }

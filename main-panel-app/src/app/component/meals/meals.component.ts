@@ -11,7 +11,9 @@ declare var window: any;
 })
 export class MealsComponent implements OnInit {
   meals!: Meal[];
+  meal!: Meal;
   addMealModal: any;
+  mealDetailsModal: any;
   editMealModal: any;
   editMealId: number | null | undefined = null;
   lastMealName: string = ""
@@ -32,6 +34,9 @@ export class MealsComponent implements OnInit {
 
   ngOnInit() {
     this.getMealsByName(this.lastMealName);
+    this.mealDetailsModal = new window.bootstrap.Modal(
+      document.getElementById('mealDetailsModal')
+    );
     this.addMealModal = new window.bootstrap.Modal(
       document.getElementById('addMealModal')
     );
@@ -67,6 +72,12 @@ export class MealsComponent implements OnInit {
     })
   }
 
+  getMeal(id: number) {
+    this.mainPanelService.getMeal(id).subscribe(data => {
+      this.meal = data;
+    })
+  }
+
   addMeal(meal: Partial<Meal>) {
     this.mainPanelService.addMeal(meal).subscribe(data => {
       if (data) {
@@ -91,6 +102,13 @@ export class MealsComponent implements OnInit {
         }
       });
     }
+  }
+
+  openMealDetailsModal(id: number | null | undefined) {
+    if (id) {
+      this.getMeal(id);
+    }
+    this.mealDetailsModal.show();
   }
 
   openAddMealModal() {

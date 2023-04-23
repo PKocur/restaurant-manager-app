@@ -26,10 +26,6 @@ export class HomeComponent {
     this.router.navigate(['login'])
   }
 
-  redirectToMeals() {
-    this.router.navigate(['meals'])
-  }
-
   redirectToOrders() {
     this.router.navigate(['orders'])
   }
