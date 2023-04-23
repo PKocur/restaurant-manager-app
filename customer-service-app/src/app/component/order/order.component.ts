@@ -4,6 +4,7 @@ import {Order} from "../../model/order";
 import {CustomerServiceManager} from "../../service/customer-service-manager.service";
 import {Meal} from "../../model/meal";
 import {OrderedMeal} from "../../model/orderedMeal";
+import {DateUtil} from "../../common/DateUtil";
 
 declare var window: any;
 
@@ -14,6 +15,7 @@ declare var window: any;
 })
 export class OrderComponent implements OnInit {
   orders!: Order[];
+  order!: Order;
   meals!: Meal[];
   addedMeals: OrderedMeal[] = [];
   addOrderModal: any;
@@ -91,6 +93,7 @@ export class OrderComponent implements OnInit {
   getOrderMeals(id: number | null | undefined): Meal[] {
     if (id) {
       this.customerServiceManager.getOrder(id).subscribe(order => {
+        this.order = order;
         if (order.meals) {
           this.orderedMeals = order.meals;
         }
@@ -146,6 +149,10 @@ export class OrderComponent implements OnInit {
       }
     });
     return totalCost.toFixed(2);
+  }
+
+  getDate(date: string): string {
+    return DateUtil.getFormattedDate(date);
   }
 }
 

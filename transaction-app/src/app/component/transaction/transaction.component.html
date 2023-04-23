@@ -22,6 +22,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Transaction details</h5>
+        <p class="mx-2 fs-5 modal-title" *ngIf="transaction && transaction.date">({{getDate(transaction.date)}})</p>
         <button
           type="button"
           class="btn-close"

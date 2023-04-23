@@ -1,14 +1,15 @@
 <div class="row">
   <p class="my-3 display-2 text-center">Actual orders</p>
-  <div class="mt-5 mx-5 col-3 my-3" *ngFor="let order of orders; let index=index">
-    <div class="alert alert-dark id text-center" role="alert" style="cursor: pointer;" (click)="openOrderModal(order.id)">
+  <div class="mt-5 mx-5 col-3" *ngFor="let order of orders; let index=index">
+    <div class="alert alert-dark id text-center" role="alert" style="cursor: pointer;"
+         (click)="openOrderModal(order.id)">
       <span class="fs-3">
         Order from <b>{{order.recognitionId}}</b>
       </span>
     </div>
   </div>
-  <button class="display-1 mx-5 col-3 my-3 alert alert-primary" (click)="openAddOrderModal()">
-    +
+  <button class="fs-3 mx-5 col-3 mt-5 alert alert-primary" (click)="openAddOrderModal()">
+    <b>+</b>
   </button>
 </div>
 
@@ -25,6 +26,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Order details</h5>
+        <p class="mx-2 fs-5 modal-title" *ngIf="order && order.date">({{getDate(order.date)}})</p>
         <button
           type="button"
           class="btn-close"
@@ -34,7 +36,8 @@
       </div>
       <div class="modal-body">
         <div class="row d-flex justify-content-center align-items-center">
-          <p class="my-3 fs-2 text-center">The order:</p>
+          <p class="my-3 fs-2 text-center" *ngIf="order">The order from <b>{{order.recognitionId}}</b>:
+          </p>
           <div class="my-3 col-3 my-3" *ngFor="let meal of orderedMeals">
             <div class="alert alert-dark id text-center" role="alert">
               <span class="fs-3"><b>{{meal.name}}</b></span>

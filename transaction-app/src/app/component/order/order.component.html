@@ -36,6 +36,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Order details</h5>
+        <p class="mx-2 fs-5 modal-title" *ngIf="order && order.date">({{getDate(order.date)}})</p>
         <button
           type="button"
           class="btn-close"

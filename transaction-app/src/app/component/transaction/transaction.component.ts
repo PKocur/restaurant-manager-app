@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TransactionService} from "../../service/transaction.service";
 import {Transaction} from "../../model/transaction";
 import {OrderedMeal} from "../../model/orderedMeal";
+import {DateUtil} from "../../common/DateUtil";
 declare var window: any;
 
 
@@ -56,6 +57,10 @@ export class TransactionComponent implements OnInit {
       }
     });
     return totalCost.toFixed(2);
+  }
+
+  getDate(date: string): string {
+    return DateUtil.getFormattedDate(date);
   }
 }
 
