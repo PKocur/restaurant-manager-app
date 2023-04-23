@@ -13,7 +13,7 @@
 </div>
 <div class="row">
   <div class="mt-5 mx-5 col-3 my-3" *ngFor="let order of orders; let index=index">
-    <div class="alert alert-primary id" role="alert" style="cursor: pointer;" (click)="openOrderModal(order.id)">
+    <div class="alert alert-dark id text-center" role="alert" style="cursor: pointer;" (click)="openOrderModal(order.id)">
       <span class="fs-3">
         Order from <b>{{order.recognitionId}}</b>
       </span>
@@ -47,7 +47,7 @@
         <div class="row d-flex justify-content-center align-items-center">
           <p class="my-3 fs-2 text-center">The order:</p>
           <div class="my-3 col-3 my-3" *ngFor="let meal of orderedMeals">
-            <div class="alert alert-primary id text-center" role="alert">
+            <div class="alert alert-dark id text-center" role="alert">
               <span class="fs-3"><b>{{meal.name}}</b></span>
               <span class="fs-3"> - {{meal.quantity}}</span>
               <div class="fs-3">{{ (meal.price ?? 0) * (meal.quantity ?? 0) }} zł</div>
