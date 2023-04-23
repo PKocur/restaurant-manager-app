@@ -1,10 +1,12 @@
 <div class="row">
   <p class="my-3 display-2 text-center">Transactions</p>
   <div class="mt-5 mx-5 col-3 my-3" *ngFor="let transaction of transactions; let index=index">
-    <div class="alert alert-dark text-center id" role="alert" style="cursor: pointer;"
-         (click)="openTransactionModal(transaction.id)">
-      <div *ngIf="transaction.order" class="fs-3">Transaction of order from <b>{{transaction.order.recognitionId}}</b></div>
-      <span class="fs-3">{{transaction.status}}</span>
+    <div class="d-grid gap-5">
+      <div class="btn btn-outline-dark text-center" (click)="openTransactionModal(transaction.id)">
+        <div *ngIf="transaction.order" class="fs-3">Transaction of order from <b>{{transaction.order.recognitionId}}</b>
+        </div>
+        <span class="fs-3">{{transaction.status}}</span>
+      </div>
     </div>
   </div>
 </div>
