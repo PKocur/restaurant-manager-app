@@ -6,6 +6,7 @@ import {AuthorizationUtil} from "../common/AuthorizationUtil";
 import {OrdersCount} from "../model/ordersCount";
 import {TotalIncome} from "../model/totalIncome";
 import {QuantitiesPerMeals} from "../model/QuantitiesPerMeals";
+import {TransactionsStatuses} from "../model/transactionsStatuses";
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,16 @@ export class AnalyticsService {
       headers: new HttpHeaders(headers),
     };
     return this.httpClient.get<QuantitiesPerMeals>(this.analyticsUrl + 'quantities-per-meals', requestOptions);
+  }
+
+  public getTransactionsStatuses(): Observable<TransactionsStatuses> {
+    const headers = {
+      'Authorization': 'Bearer ' + AuthorizationUtil.getBearerToken(),
+      observe: 'response'
+    }
+    const requestOptions = {
+      headers: new HttpHeaders(headers),
+    };
+    return this.httpClient.get<TransactionsStatuses>(this.analyticsUrl + 'transactions-statuses', requestOptions);
   }
 }

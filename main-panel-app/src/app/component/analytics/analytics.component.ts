@@ -7,6 +7,7 @@ import {AnalyticsService} from "../../service/analytics.service";
 import {TotalIncome} from "../../model/totalIncome";
 import {QuantitiesPerMeals} from "../../model/QuantitiesPerMeals";
 import Chart from 'chart.js/auto';
+import {TransactionsStatuses} from "../../model/transactionsStatuses";
 
 @Component({
   selector: 'app-analytics',
@@ -18,6 +19,8 @@ export class AnalyticsComponent implements OnInit {
   totalIncome!: TotalIncome;
   quantitiesPerMeals!: QuantitiesPerMeals;
   quantitiesPerMealsChart: any;
+  transactionsStatuses!: TransactionsStatuses;
+  transactionsStatusesChart: any;
 
   constructor(private analyticsService: AnalyticsService) {
   }
@@ -26,6 +29,7 @@ export class AnalyticsComponent implements OnInit {
     this.getOrdersCount()
     this.getTotalIncome()
     this.getQuantitiesPerMeals()
+    this.getTransactionsStatuses()
   }
 
   getOrdersCount() {
@@ -44,6 +48,13 @@ export class AnalyticsComponent implements OnInit {
     this.analyticsService.getQuantitiesPerMeals().subscribe(data => {
       this.quantitiesPerMeals = data;
       this.createQuantitiesPerMealsChart();
+    })
+  }
+
+  getTransactionsStatuses() {
+    this.analyticsService.getTransactionsStatuses().subscribe(data => {
+      this.transactionsStatuses = data;
+      this.createTransactionsStatusesChart();
     })
   }
 
@@ -69,5 +80,36 @@ export class AnalyticsComponent implements OnInit {
 
   getQuantitiesForChart() {
     return this.quantitiesPerMeals.quantityPerMealList.map(quantityPerMeal => quantityPerMeal.quantity);
+  }
+
+  createTransactionsStatusesChart() {
+    this.quantitiesPerMealsChart = new Chart("transactionsStatusesChart", {
+      type: 'pie',
+      data: {
+        labels: this.getTransactionStatusesNamesForChart(),
+        datasets: [
+          {
+            label: "Finished",
+            data: this.getTransactionsCountForChart(),
+            backgroundColor: [
+              'green',
+              'red',
+            ]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  }
+
+  getTransactionStatusesNamesForChart() {
+    return ['Finalized', 'Cancelled'];
+  }
+
+  getTransactionsCountForChart() {
+    return [this.transactionsStatuses.finalized, this.transactionsStatuses.cancelled]
   }
 }

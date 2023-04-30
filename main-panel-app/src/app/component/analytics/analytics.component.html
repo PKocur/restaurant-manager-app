@@ -7,7 +7,7 @@
         <div class="mb-3 display-3">{{totalIncome.value}} zł</div>
       </div>
       <div *ngIf="ordersCount" class="col-6">
-        <div class="fs-4">Orders count:</div>
+        <div class="fs-4">Orders total count:</div>
         <div class="mb-3 display-3">{{ordersCount.count}}</div>
       </div>
     </div>
@@ -17,5 +17,12 @@
         <canvas id="quantitiesPerMealsChart">{{ quantitiesPerMealsChart }}</canvas>
       </div>
     </div>
+    <div class="row">
+      <div class="offset-3 col-6">
+        <div class="mt-5 fs-4">Transactions count:</div>
+        <div class="chart-container">
+          <canvas id="transactionsStatusesChart">{{ transactionsStatusesChart }}</canvas>
+        </div>
+      </div>
   </div>
 </div>
