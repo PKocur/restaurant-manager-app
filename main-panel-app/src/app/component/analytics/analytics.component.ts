@@ -81,6 +81,22 @@ export class AnalyticsComponent implements OnInit {
             backgroundColor: 'blue'
           }
         ]
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'x - Meal name'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'y - Quantity sold'
+            }
+          }
+        }
       }
     });
   }
@@ -111,7 +127,7 @@ export class AnalyticsComponent implements OnInit {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
       }
     });
   }
@@ -136,6 +152,22 @@ export class AnalyticsComponent implements OnInit {
             backgroundColor: 'pink'
           }
         ]
+      },
+      options: {
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'x - Period'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'y - Orders number'
+            }
+          }
+        }
       }
     });
   }

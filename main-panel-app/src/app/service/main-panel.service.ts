@@ -5,7 +5,6 @@ import {Meal} from "../model/meal";
 import {Constants} from "../common/Constants";
 import {AuthorizationUtil} from "../common/AuthorizationUtil";
 import {Information} from "../model/information";
-import {OrdersCount} from "../model/ordersCount";
 
 @Injectable({
   providedIn: 'root'
