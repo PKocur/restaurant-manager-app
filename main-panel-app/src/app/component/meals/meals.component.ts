@@ -11,11 +11,21 @@ declare var window: any;
 })
 export class MealsComponent implements OnInit {
   meals!: Meal[];
+  meal!: Meal;
   addMealModal: any;
+  mealDetailsModal: any;
+  editMealModal: any;
+  editMealId: number | null | undefined = null;
+  lastMealName: string = ""
 
   addMealForm = this.formBuilder.group({
     name: '',
     price: ''
+  });
+
+  editMealForm = this.formBuilder.group({
+    editName: '',
+    editPrice: ''
   });
 
   constructor(private mainPanelService: MainPanelService,
@@ -23,9 +33,15 @@ export class MealsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getMeals();
+    this.getMealsByName(this.lastMealName);
+    this.mealDetailsModal = new window.bootstrap.Modal(
+      document.getElementById('mealDetailsModal')
+    );
     this.addMealModal = new window.bootstrap.Modal(
       document.getElementById('addMealModal')
+    );
+    this.editMealModal = new window.bootstrap.Modal(
+      document.getElementById('editMealModal')
     );
   }
 
@@ -35,18 +51,45 @@ export class MealsComponent implements OnInit {
       "price": Number(this.addMealForm.value.price)
     });
     this.addMealForm.reset();
+    this.closeAddMealModal();
   }
 
-  getMeals() {
-    this.mainPanelService.getMeals().subscribe(data => {
+  onEditMealFormSubmit(mealId: number | null | undefined) {
+    if (!mealId) {
+      return
+    }
+    this.editMeal(mealId, {
+      "name": this.editMealForm.value.editName,
+      "price": Number(this.editMealForm.value.editPrice)
+    });
+    this.closeEditMealModal()
+  }
+
+  getMealsByName(name: string) {
+    this.lastMealName = name;
+    this.mainPanelService.getMealsByName(name).subscribe(data => {
       this.meals = data;
+    })
+  }
+
+  getMeal(id: number) {
+    this.mainPanelService.getMeal(id).subscribe(data => {
+      this.meal = data;
     })
   }
 
   addMeal(meal: Partial<Meal>) {
     this.mainPanelService.addMeal(meal).subscribe(data => {
       if (data) {
-        this.getMeals();
+        this.getMealsByName(this.lastMealName);
+      }
+    });
+  }
+
+  editMeal(mealId: number, meal: Partial<Meal>) {
+    this.mainPanelService.editMeal(mealId, meal).subscribe(data => {
+      if (data) {
+        this.getMealsByName(this.lastMealName);
       }
     });
   }
@@ -55,10 +98,17 @@ export class MealsComponent implements OnInit {
     if (id) {
       this.mainPanelService.removeMeal(id).subscribe(data => {
         if (data) {
-          this.getMeals();
+          this.getMealsByName(this.lastMealName);
         }
       });
     }
+  }
+
+  openMealDetailsModal(id: number | null | undefined) {
+    if (id) {
+      this.getMeal(id);
+    }
+    this.mealDetailsModal.show();
   }
 
   openAddMealModal() {
@@ -67,5 +117,14 @@ export class MealsComponent implements OnInit {
 
   closeAddMealModal() {
     this.addMealModal.hide();
+  }
+
+  openEditMealModal(mealId: number | null | undefined) {
+    this.editMealId = mealId;
+    this.editMealModal.show();
+  }
+
+  closeEditMealModal() {
+    this.editMealModal.hide();
   }
 }

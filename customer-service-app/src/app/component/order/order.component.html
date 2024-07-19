@@ -1,0 +1,216 @@
+<div class="row">
+  <p class="my-3 display-2 text-center">Actual orders</p>
+  <div class="mt-5 mx-5 col-3" *ngFor="let order of orders; let index=index">
+    <div class="d-grid gap-5">
+      <div class="btn btn-outline-dark text-center" (click)="openOrderModal(order.id)">
+      <span class="fs-3">
+        Order from <b>{{order.recognitionId}}</b>
+      </span>
+      </div>
+    </div>
+    <button class="mt-3 m-1 btn btn-outline-primary" (click)="openEditOrderModal(order.id)">Edit</button>
+    <button class="mt-3 m-1 btn btn-outline-danger" (click)="removeOrder(order.id)">Delete</button>
+  </div>
+  <button class="fs-3 mx-5 col-3 mt-5 btn btn-outline-primary" (click)="openAddOrderModal()">
+    <b>+</b>
+  </button>
+</div>
+
+<!-- Order details modal -->
+
+<div
+  class="modal fade"
+  id="orderModal"
+  tabindex="-1"
+  aria-labelledby="orderModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Order details</h5>
+        <p class="mx-2 fs-5 modal-title" *ngIf="order && order.date">({{getDate(order.date)}})</p>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center align-items-center">
+          <p class="my-3 fs-2 text-center" *ngIf="order">The order from <b>{{order.recognitionId}}</b>:
+          </p>
+          <div class="my-3 col-3 my-3" *ngFor="let meal of orderedMeals">
+            <div class="alert alert-dark id text-center" role="alert">
+              <span class="fs-3"><b>{{meal.name}}</b></span>
+              <span class="fs-3"> - {{meal.quantity}}</span>
+              <div class="fs-3">{{ (meal.price ?? 0) * (meal.quantity ?? 0) }} zł</div>
+            </div>
+          </div>
+          <div class="text-center">
+            <p *ngIf="orderedMeals.length > 0" class="fs-4">Total value: {{getTotalCostOfOrderedMeals()}} zł</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add order modal-->
+
+<div
+  class="modal fade"
+  id="addOrderModal"
+  tabindex="-1"
+  aria-labelledby="addOrderModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add order</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [noValidate]="false" [formGroup]="addOrderForm" (ngSubmit)="onAddOrderFormSubmit()">
+        <div class="modal-body">
+          <div class="my-2 form-group">
+            <label class="my-1 fs-5" for="recognitionId">
+              Recognition id for the order
+            </label>
+            <input class="form-control" id="recognitionId" type="text" placeholder="Enter order recognition id" required
+                   minlength="3"
+                   maxlength="50" formControlName="recognitionId"/>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center">
+            <p *ngIf="addedMeals.length > 0" class="my-3 fs-2 text-center">The order:</p>
+            <div class="my-3 col-3 my-3" *ngFor="let meal of addedMeals">
+              <div class="alert alert-dark id text-center" role="alert">
+                <span class="fs-3"><b>{{meal.name}}</b></span>
+                <span class="fs-3"> - {{meal.quantity}}</span>
+                <div class="fs-3">{{ (meal.price ?? 0) * (meal.quantity ?? 0) }} zł</div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button class="m-1 btn btn-outline-danger" type="button" (click)="removeMeal(meal.id)"><b>-</b></button>
+                <button class="m-1 btn btn-outline-success" type="button" (click)="addMeal(meal.id)"><b>+</b></button>
+              </div>
+            </div>
+            <div class="text-center">
+              <p *ngIf="addedMeals.length > 0" class="fs-4">Total value: {{getTotalCostOfAddedMeals()}} zł</p>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center">
+            <hr class="bg-danger border-2 border-top border-secondary">
+            <p class="fs-2 text-center">Menu:</p>
+            <div class="my-3 col-3 my-3" *ngFor="let meal of meals">
+              <div class="d-grid gap-5">
+                <div class="btn btn-outline-dark text-center" (click)="addMeal(meal.id)">
+                  <span class="fs-3"><b>{{meal.name}}</b></span>
+                  <div class="fs-3">{{meal.price}} zł</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="clearAddOrderModal()">
+            Clear
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit order modal-->
+
+<div
+  class="modal fade"
+  id="editOrderModal"
+  tabindex="-1"
+  aria-labelledby="editOrderModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit order</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [noValidate]="false" [formGroup]="editOrderForm" (ngSubmit)="onEditOrderFormSubmit(order.id)">
+        <div class="modal-body">
+          <div class="my-2 form-group">
+            <label class="my-1 fs-5" for="recognitionId">
+              Recognition id for the order
+            </label>
+            <input class="form-control" id="editRecognitionId" type="text" placeholder="Enter order recognition id" required
+                   minlength="3"
+                   maxlength="50" formControlName="editRecognitionId"/>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center">
+            <p *ngIf="addedMeals.length > 0" class="my-3 fs-2 text-center">The order:</p>
+            <div class="my-3 col-3 my-3" *ngFor="let meal of addedMeals">
+              <div class="alert alert-dark id text-center" role="alert">
+                <span class="fs-3"><b>{{meal.name}}</b></span>
+                <span class="fs-3"> - {{meal.quantity}}</span>
+                <div class="fs-3">{{ (meal.price ?? 0) * (meal.quantity ?? 0) }} zł</div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button class="m-1 btn btn-outline-danger" type="button" (click)="removeMeal(meal.id)"><b>-</b></button>
+                <button class="m-1 btn btn-outline-success" type="button" (click)="addMeal(meal.id)"><b>+</b></button>
+              </div>
+            </div>
+            <div class="text-center">
+              <p *ngIf="addedMeals.length > 0" class="fs-4">Total value: {{getTotalCostOfAddedMeals()}} zł</p>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center">
+            <hr class="bg-danger border-2 border-top border-secondary">
+            <p class="fs-2 text-center">Menu:</p>
+            <div class="my-3 col-3 my-3" *ngFor="let meal of meals">
+              <div class="d-grid gap-5">
+                <div class="btn btn-outline-dark text-center" (click)="addMeal(meal.id)">
+                  <span class="fs-3"><b>{{meal.name}}</b></span>
+                  <div class="fs-3">{{meal.price}} zł</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="clearAddOrderModal()">
+            Clear
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Modify
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

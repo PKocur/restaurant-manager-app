@@ -1,0 +1,22 @@
+<div class="row">
+  <p class="my-3 display-2 text-center">Log in</p>
+  <div class="offset-3 col-6 text-center mt-5">
+    <form [noValidate]="false" [formGroup]="loginFormFromView" (ngSubmit)="onLoginFormSubmit()">
+      <label for="email" class="my-3 fs-4">
+        Email
+      </label>
+      <input class="form-control" id="email" type="text" placeholder="Enter email" required minlength="3"
+             maxlength="50" formControlName="email"/>
+      <div class="form-group">
+        <label for="password" class="my-3 fs-4">
+          Password
+        </label>
+        <input class="form-control" id="password" type="password" placeholder="Enter password"
+               formControlName="password"/>
+      </div>
+      <button type="submit" class="my-3 btn btn-primary">
+        Log in
+      </button>
+    </form>
+  </div>
+</div>

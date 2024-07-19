@@ -1,0 +1,34 @@
+<div class="row">
+  <p class="my-3 display-2 text-center">Analytics</p>
+  <div class="offset-3 col-6 text-center mt-5">
+    <div class="row">
+      <div *ngIf="totalIncome" class="col-6">
+        <div class="fs-4">Total income:</div>
+        <div class="mb-3 display-3">{{totalIncome.value}} zł</div>
+      </div>
+      <div *ngIf="ordersCount" class="col-6">
+        <div class="fs-4">Orders total count:</div>
+        <div class="mb-3 display-3">{{ordersCount.count}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="fs-4">Best selling meals:</div>
+      <div class="chart-container">
+        <canvas id="quantitiesPerMealsChart">{{ quantitiesPerMealsChart }}</canvas>
+      </div>
+    </div>
+    <div class="row">
+      <div class="fs-4">Orders per hours:</div>
+      <div class="chart-container">
+        <canvas id="orderPerHoursChart">{{ ordersPerHoursChart }}</canvas>
+      </div>
+    </div>
+    <div class="row">
+      <div class="offset-3 col-6">
+        <div class="mt-5 fs-4">Transactions count:</div>
+        <div class="chart-container">
+          <canvas id="transactionsStatusesChart">{{ transactionsStatusesChart }}</canvas>
+        </div>
+      </div>
+  </div>
+</div>

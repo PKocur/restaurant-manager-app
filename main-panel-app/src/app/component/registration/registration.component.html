@@ -1,0 +1,40 @@
+<div class="row">
+  <p class="my-3 display-2 text-center">Register</p>
+  <div class="offset-3 col-6 text-center mt-5">
+    <form [noValidate]="false" [formGroup]="registrationFormFromView" (ngSubmit)="onRegistrationFormSubmit()">
+      <label for="firstName" class="my-3 fs-4">
+        First name
+      </label>
+      <input class="form-control" id="firstName" type="text" placeholder="Enter first name" required minlength="3"
+             maxlength="50" formControlName="firstName"/>
+      <label for="lastName" class="my-3 fs-4">
+        Last name
+      </label>
+      <input class="form-control" id="lastName" type="text" placeholder="Enter last name" required minlength="3"
+             maxlength="50" formControlName="lastName"/>
+      <label for="email" class="my-3 fs-4">
+        Email
+      </label>
+      <input class="form-control" id="email" type="email" placeholder="Enter email" required minlength="3"
+             maxlength="50" formControlName="email"/>
+      <label for="password" class="my-3 fs-4">
+        Password
+      </label>
+      <input class="form-control" id="password" type="password" placeholder="Enter password"
+             formControlName="password"/>
+      <label for="role" class="my-3 fs-4">
+        Role
+      </label>
+      <select id="role" class="form-control choices-multiple" formControlName="roles" multiple>
+        <option selected value="admin">Administrator</option>
+        <option value="waiter">Waiter</option>
+        <option value="cashier">Cashier</option>
+      </select>
+
+      <button type="submit" class="my-3 btn btn-primary">
+        Register
+      </button>
+    </form>
+  </div>
+</div>
+
